@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row m-auto">
+    <div class="col-md">
+        <h3>Your Friends</h3>
+        {% for foodie in all_friends %}
+        <div class="row m-auto">
+            <div class="col d-flex">
+                <h3><a href="{% url 'show_user' id=foodie.id %}">{{foodie}}</a></h3>
+                <form action="{% url 'remove_friend' friend_id=foodie.id %}" method="post">
+                    {% csrf_token %}
+                    <input class=" ml-2 btn btn-dark btn-sm" type="submit" value="Remove Friend">
+                </form>
+            </div>
+        </div>
+        <div class="row m-auto">
+            <div class="col-md-6">
+                <p>{{foodie.first_name}} has {{foodie.friends.all|length}} friends, {{foodie.favorites.all|length}} favorited restaurants, and has made {{foodie.user_reviews.all|length}} reviews.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-md">
+        <h3>Find New Friends</h3>
+        {% for foodie in non_friends %}
+        {% if foodie.id != user.id %}
+        <div class="container border border-secondary shadow">
+            <div class="row m-auto">
+                <div class="col d-flex">
+                    <h3><a href="{% url 'show_user' id=foodie.id %}">{{foodie}}</a></h3>
+                    <form action="{% url 'add_friend' friend_id=foodie.id %}" method="post">
+                        {% csrf_token %}
+                        <input class=" ml-2 mt-1 btn btn-dark btn-sm" type="submit" value="Add Friend">
+                    </form>
+                </div>
+            </div>
+            <div class="row m-auto">
+                <div class="col-md-6">
+                    <p>{{foodie.first_name}} has {{foodie.friends.all|length}} friends, {{foodie.favorites.all|length}} favorited restaurants, and has made {{foodie.user_reviews.all|length}} reviews.</p>
+                </div>
+            </div>
+        </div>
+        
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}

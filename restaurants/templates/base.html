@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/journal/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/main_1.js' %}"></script>
+
+    
+    <script async src="{% static 'js/google_maps_api_functions.js' %}"></script>
+    <title>Dashboard</title>
+</head>
+<body style="overflow-x: hidden;" class="bg-light">
+    <nav style="position: sticky; width: 100%; top: 0; left: 0; z-index: 10;" class="navbar navbar-expand-lg   navbar-light bg-primary justify-content-between">
+        <a class="navbar-brand" href="{% url 'dashboard' %}"><img style="height: 75px; width: 150px;" src="/media/images/taste-logo.png" alt="Taste Logo"></a>
+            </div>
+            <div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'explore' %}">Explore</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Foodies
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'show_user' id=user.id %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'explore_friends' %}">Foodie Friends</a>
+                        </div>   
+                        </li>
+                        
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                        </li>
+                    </ul>
+                <form action="{% url 'search' %}" method="GET" class="form-inline my-2 my-lg-0">
+                    {% csrf_token %}
+                    <input class="form-control mr-sm-2" id="rest_search" name="rest_search" type="search" placeholder="Search Restaurants" aria-label="Search">
+                    <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            
+        </nav>
+        
+    {% block content %}
+    {% endblock %}
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxygutrDRQcEQEvw_Yv2EUCQdvhhWQ_pc&callback=initMap&libraries=&v=weekly"
+    async
+></script>
+</body>
+</html>

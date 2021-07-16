@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron bg-primary m-auto text-center">
+    {% if user.id == user_prof.id %}
+        <h1 style="font-size: 3.5em;">Welcome, {{user}}!</h1>
+        <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#edit_user" >Edit Profile Information</button>
+        <div class="modal fade" id="edit_user" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-colored bg-primary">
+                        <h3 class="modal-title form-group">Edit Your Information</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit_profile_form" action="{% url 'edit_profile' %}" method="post">
+                            {% csrf_token %}
+                            <p id="first_name_error" class="text-danger list-unstyled"></p>
+                            <label class="font-weight-bold" for="first_name">First Name:</label>
+                            <input class="form-control text-center" type="text" name="first_name" id="first_name" value="{{user.first_name}}" required>
+                            <p id="last_name_error" class="text-danger list-unstyled"></p>
+                            <label class="font-weight-bold" for="last_name">Last Name:</label>
+                            <input class="form-control text-center" type="text" name="last_name" id="last_name" value="{{user.last_name}}" required>
+                            <p id="username_error" class="text-danger list-unstyled"></p>
+                            <label class="font-weight-bold" for="username">Username:</label>
+                            <input class="form-control text-center" type="text" name="username" id="username" value="{{user.username}}" required>
+                            <p id="email_error" class="text-danger list-unstyled"></p>
+                            <label class="font-weight-bold" for="email">Email:</label>
+                            <input class="form-control text-center" type="text" name="email" id="email" value="{{user.email}}" required>
+                            <p id="birthday_error" class="text-danger list-unstyled"></p>
+                            <label class="font-weight-bold" for="birthday">Birthday:</label>
+                            <input class="form-control text-center" name="birthday" type="date" value="{{user.birthday|date:'Y-m-d'}}" required>
+                            <input class="btn btn-dark mt-2" type="submit" value="Update">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#change_password" >Change Password</button>
+        <div class="modal fade" id="change_password" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-colored bg-primary">
+                        <h3 class="modal-title form-group">Change Your Password</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id='pw_update_form' action="{% url 'change_password' %}" method="post">
+                            {% csrf_token %}
+                            
+                                    <p id="password_error" class="text-danger list-unstyled"></p>
+                            <label class="font-weight-bold" for="password">New Password:</label>
+                            <input class="form-control text-center" type="password" name="password" id="password" required>
+                                    <p id="pw_confirm_error" class="text-danger list-unstyled"></p>
+                                
+                            <label class="font-weight-bold" for="pw_confirm">Confirm Password:</label>
+                            <input class="form-control text-center" type="password" name="pw_confirm" id="pw_confirm" required>
+                            <input class="btn btn-dark mt-2" type="submit" value="Update Password">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>          
+    {% else %}
+    <h1 style="font-size: 3.5em;">{{user_prof}}</h1>
+    {% if user_prof in user.friends.all %}
+    <form action="{% url 'remove_friend' friend_id=user_prof.id %}" method="post">
+        {% csrf_token %}
+        <input class="btn btn-dark btn-sm" type="submit" value="Remove Friend">
+    </form>
+    {% else %}
+    <form action="{% url 'add_friend' friend_id=user_prof.id %}" method="post">
+        {% csrf_token %}
+        <input class="btn btn-dark" type="submit" value="Add Friend">
+    </form>
+    {% endif %}
+    {% endif %}
+</div>
+<div class="row m-auto">
+    <div class="col-md border border-secondary shadow ">
+        <h2>Friends <em><h5>({{ user_prof.friends.all|length }} friends)</h5></em></h2>
+        {% if user_prof.friends.all %}
+        {% for friend in user_prof.friends.all %}
+        <div class="friend-list">
+            <a class="font-weight-bold py-0 list-group-item list-group-item-action" href="{% url 'show_user' id=friend.id %}">{{friend}}</a>
+        </div>
+        {% endfor %}
+        <div class="show-more-friends">Show More</div>
+        {% else %}
+            <a class="font-weight-bold  list-group-item list-group-item-action" href="{% url 'explore_friends' %}">No Friends Yet.  Click to Explore New Friends.</a>
+        {% endif %}
+    </div>
+    <div class="col-md border border-secondary shadow mx-3">
+        <h2>Restaurant Favorites <em><h5>({{ user_prof.favorites.all|length }} restaurants favorited)</h5></em></h2>
+        {% if user_prof.favorites.all %}
+        {% for favorite in user_prof.favorites.all %}      
+        <div class="favorite-list">
+            <a class="font-weight-bold py-0 list-group-item list-group-item-action" href="{% url 'show_restaurant' id=favorite.id %}">{{favorite}}</a> 
+        </div>
+        {% endfor %}
+        <div class="show-more-favorites" style="cursor: pointer;">Show More</div>
+        {% else %}
+        <a class="font-weight-bold list-group-item list-group-item-action" href="{% url 'explore' %}">No Favorites Yet.  Click to Explore New Restaurants</a>
+        {% endif %}
+    </div>
+    <div class="col-md border border-secondary shadow">
+        <h2>Reviews <em><h5>({{ user_prof_reviews|length }} reviews made)</h5></em></h2>
+        {% if user_prof_reviews %}
+            {% for review in user_prof_reviews %}
+
+            <div class="row">
+                <div class="col border border-secondary mt-1 shadow review-list">
+                    <div class="row">
+                        <div class="col">
+                            <h3><a id="restaurant_name" class="font-weight-bold text-secondary" href="{% url 'show_restaurant' id=review.restaurant.id %}">{{review.restaurant}}</a></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="d-inline">{{review.title}}</h4>
+                        </div>
+                        {% if user_prof == user %}
+                        <div class="col-md-4 text-right">
+                            <button type="button" class="btn btn-link text-primary" data-toggle="modal" data-target="#update_review{{review.id}}" >Edit</button>
+                            {% include 'edit_review_modal.html' %}
+                            <button type="button" class="btn btn-link text-primary" data-toggle="modal" data-target="#delete_review{{review.id}}" >Delete</button>
+                            {% include 'delete_review_modal.html' %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    
+                    
+                    <div class="row">
+                        <div class="col">
+                            {% for star in stars %}
+                            {%  if star <= review.rating %}
+                            <label class="star-label star-label-checked">&#9733;</label>
+                            {% else %}
+                            <label class="star-label star-label-unchecked">&#9733;</label>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    
+                    <p><em> ({{review.rating}} Stars) | Written by {{user_prof}} - {{review.updated_at|timesince}} ago.</em></p>
+                    <p>{{ review.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="show-more-reviews" style="cursor: pointer;">Show More</div>
+        {% else %}
+            <a class="font-weight-bold list-group-item list-group-item-action" href="{% url 'explore' %}">No Reviews Yet.  Click to Explore New Restaurants.</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

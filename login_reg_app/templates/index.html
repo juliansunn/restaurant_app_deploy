@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/journal/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+
+    <title>Login & Registration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    {% load static %}
+    <script src="{% static 'js/main.js' %}"></script>
+</head>
+<body class="bg-white">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="jumbotron bg-primary col text-center pb-2">
+                <nav class="navbar navbar-expand-md navbar navbar-light ">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><img style="height: 100px;" src="/media/images/taste-logo.png" alt="The Taste"></a>
+                
+                    <div class="collapse navbar-collapse" id="navbarToggler">
+                        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li class="nav-item">
+                            <a id="about" class="nav-link about" href="#">About</a>
+                            </li>
+                            <li class="nav-item">
+                            <a id="contact" class="nav-link" href="#">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                            <a id="advertise" class="nav-link" href="#">Advertise</a>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                </nav>
+                
+            </div>
+        </div>
+        <div id="info">
+            <div class="row">
+                <div class="col-md-8 offset-2 text-center">
+                    <p id="content"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col-lg-5 offset-1 mr-1">
+                <div style="cursor: pointer;" class="row register">
+                    <div class="col text-center btn-lg btn-dark shadow-lg">
+                        <h3>Sign Up</h3>
+                    </div> 
+                </div>
+                <div class="row reg-body">
+                    <div class="col text-center bg-light rounded pt-3">
+                        <form id="reg-form" class="form-group text-left" action="{% url 'register' %}" method="POST">
+                            {% csrf_token %}
+                            {% for message in messages %}
+                                {% if "first_name" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="first_name">First Name:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="first_name" type="text" required>
+                                    </div>
+                                </div>
+                            {% for message in messages %}
+                                {% if "last_name" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="last_name">Last Name:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="last_name" type="text" required>
+                                    </div>
+                                </div>
+                                <div id="usernamemsg" class="form-group form-row"></div>
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="username">Username:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" id="username" name="username" type="text" required>
+                                    </div>
+                                </div>
+                                <div id="emailmsg" class="form-group form-row"></div>
+                            {% for message in messages %}
+                                {% if "email" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="email">Email:</label>
+                                    <div class="col-sm-6">
+                                        <input id="email" class="form-control" name="email" type="email" required>
+                                    </div>
+                                </div>
+                            {% for message in messages %}
+                                {% if "birthday" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="birthday">Birthday:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="birthday" type="date" required>
+                                    </div>
+                                </div>
+                            {% for message in messages %}
+                                {% if "password" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="password">Password:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="password" type="password" required>
+                                    </div>
+                                </div>
+                            {% for message in messages %}
+                                {% if "pw_confirm" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="pw_confirm">Confirm PW:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="pw_confirm" type="password" required>
+                                    </div>
+                                </div>
+                                <div class="form-group form-row pb-1">
+                                    <div class="col text-center">
+                                        <input type="submit" value="Register" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </form>
+                    </div> 
+                </div>
+                
+            </div>
+            <div class="col-lg-5 ml-1">
+                <div style="cursor: pointer;" class="row login">
+                    <div class="col text-center btn-lg btn-dark shadow-lg">
+                        <h3>Login</h3>
+                    </div> 
+                </div>
+                <div class="row login-body">
+                    <div class="col text-center bg-light rounded">
+                        <form class="form-group text-left" action="{% url 'login' %}" method="POST">
+                            {% csrf_token %}
+                            {% for message in messages %}
+                                {% if "user_em" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div id="login-emailmsg" class="form-group form-row"></div>    
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="login_email">Email:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" id="login-email" name="login_email" type="email" required>
+                                    </div>
+                                </div>
+                            {% for message in messages %}
+                                {% if "user_pw" in message.tags %}
+                                    <p class="text-danger list-unstyled">{{message}}</p>
+                                {% endif %}
+                            {% endfor %}
+                                <div class="form-group form-row pb-1">
+                                    <label class="col-sm-3 col-form-label" for="login_password">Password:</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="login_password" type="password" required>
+                                    </div>
+                                </div>
+                                <div class="form-group form-row pb-1">
+                                    <div class="col text-center">
+                                        <input type="submit" value="Login" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </form>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <p>© 2021</p>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>

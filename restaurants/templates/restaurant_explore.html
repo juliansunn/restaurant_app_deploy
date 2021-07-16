@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="explore bg-primary">
+    <div class="row">
+        <div class="col text-center">
+            <h1>Explore Restaurants</h1>
+            
+        </div>
+    </div>
+    <div class="row py-2 d-flex justify-content-center">
+        <div class="col-lg-5 bg-light rounded border border-secondary shadow">
+            <h3 class="text-center">Explore New Restaurants</h3>
+            <div class="row">
+                <div class="col">
+                    <form id="new_loc_search" action="{% url 'new_loc_search' %}" method="GET" class="justify-content-center form-inline">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input title="Optional field.  You could search for Pizza or Italian or specific restaurants like Starbucks." type="text" name="rest_search_term" placeholder="Enter a Search Term" class="form-select form-control  mr-1">
+                            <input title="Please enter a location here.  Examples include NYC or New York City or New York, NY.  Have a go!" id='new-loc-search' class="form-select form-control" name="rest_search_loc" type="text" placeholder="Enter a Location" aria-label="Search">
+                        </div>  
+                        <button class="btn btn-primary ml-1" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 pb-1 bg-light rounded border border-secondary shadow">
+            <h3 class="text-center">Browse Our Restaurants</h3>
+            <form  action="{% url 'category_explore' %}" method="get">
+                <div class="row" id="query-div">
+                    
+                    <div class="col-md-2">
+                        <label for="location">State:</label>
+                        <select class="form-select form-control" name="state" id="state">
+                            <option></option>
+                            {% for state in states %}
+                            <option>{{state}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="location">City:</label>
+                        <select class="form-select form-control" name="city" id="city">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="location">Category:</label>
+                        <select class="form-select form-control" name="category" id="category">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1">
+                        <input class="btn btn-primary" type="submit" value="Go!">
+                    </div>
+                </div>
+            </form>
+        </div>           
+                
+    </div>
+</div>
+<div  id="loading-div" class="row">
+    <div class="col text-center">
+        <img style="height: 250px; width: 250px;" src="/media/images/ajax-loader.gif" alt="loading">
+    </div>
+</div>
+{% if restaurants.has_other_pages %}
+    <div class="row bg-secondary">
+        <div class="col">
+            <ul class="pagination justify-content-center">
+                {% if restaurants.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ restaurants.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item" class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in restaurants.paginator.page_range %}
+                    {% if restaurants.number == i %}
+                    <li class=" active bg-primary px-3 page-item"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if restaurants.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ restaurants.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled page-item"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% if restaurants %}
+{% for r in restaurants %}
+    <input type="hidden" class="rel_rests" value="{{r.latitude}}/{{r.longitude}}/{{r.name}}/{{r.id}}">
+{% endfor %}
+<div class="row bg-primary d-flex justify-content-center">
+        <div style="height: 400px;" class="col-10 shadow border border-dark shadow-lg" id='map'></div>
+    
+    
+</div>
+
+{% include 'restaurant_tiles.html' %}
+{% endif %}
+
+{% endblock %}

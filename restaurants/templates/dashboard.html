@@ -1,0 +1,39 @@
+    <title>Dashboard</title>
+    {% extends 'base.html' %}
+    {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<script src="{% static 'js/main_1.js' %}"></script>
+
+
+<div class="jumbotron text-center bg-primary mb-0">
+    <h1 style="font-size: 3.5em;">Restaurants For You</h1>
+</div>
+{% if restaurants.has_other_pages %}
+    <div class="row bg-primary pt-4">
+        <div class="col">
+            <ul class="pagination justify-content-center">
+                {% if restaurants.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ restaurants.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item" class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in restaurants.paginator.page_range %}
+                    {% if restaurants.number == i %}
+                    <li class=" active bg-secondary px-3 page-item"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if restaurants.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ restaurants.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled page-item"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% include 'restaurant_tiles.html' %}
+
+{% endblock %}

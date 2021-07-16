@@ -1,0 +1,36 @@
+<div class="modal fade" id="update_review{{review.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-colored bg-primary">
+                <h3 class="modal-title form-group">Review for {{review.restaurant.name}} </h3>
+            </div>
+            <div class="modal-body">
+                <form class="edit_review_form"  action="{% url 'update_review' id=review.id %}" method="post">
+                    {% csrf_token %}
+                    <label class="font-weight-bold" for="title">Title:</label>
+                    <input class="form-control text-center" type="text" name="title" id="title{{review.id}}" value="{{review.title}}" required>
+                    <div class="form-group row">
+                        <div class=" btn rating" name="rating{{review.id}}">
+                            
+                            {% for star in stars%}
+                            {% if star <= review.rating %}
+                            <span value="{{star}}" class="star checked {{review.id}}" id="{{star}}-{{review.id}}"><input type="radio" name="rating" id="str{{review.id}}-{{star}}" value="{{star}}" checked><label for="str{{review.id}}-{{star}}">&#9733;</label></span>   
+                            {% else %}
+                            <span value="{{star}}" class="star {{review.id}}" id="{{star}}-{{review.id}}"><input type="radio" name="rating" id="str{{review.id}}-{{star}}" value="{{star}}"><label for="str{{review.id}}-{{star}}">&#9733;</label></span>
+                                
+                            {% endif %}
+                            {% endfor %}
+                            <label id="rating-desc{{review.id}}"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="desc">Post a Review Below:</label>
+                        <textarea id="desc{{review.id}}" class="form-control" name="desc" rows="3">{{review.desc}}</textarea>
+                    </div>
+                    <input class="btn btn-dark btn-sm" type="submit" value="Post Review">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

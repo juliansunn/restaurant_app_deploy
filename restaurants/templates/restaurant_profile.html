@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block content %}
+<script>
+</script>
+<div class="jumbotron bg-secondary text-center" style="background-image: url({{restaurant.image.url}}); background-size: cover; background-blend-mode:overlay;">
+    <div class="row" >
+        <input type="hidden" name="lng" id="lng" value="{{restaurant.longitude}}">
+        <input type="hidden" name="lat" id="lat" value="{{restaurant.latitude}}">
+        {% for r in related_restaurants %}
+        {% if r.id != restaurant.id %}
+        <input type="hidden" class="rel_rests" value="{{r.latitude}}/{{r.longitude}}/{{r.name}}/{{r.id}}">
+        {% endif %}
+        {% endfor %}
+        <div class="rest_map col-lg-5 shadow border border-dark shadow-lg" id='map'></div>
+        
+        <div class="col-lg-7 text-left pl-4">
+            <h1>{{restaurant.name}}</h1>
+            <h3>{{restaurant.location}}</h3>
+            {% if restaurant.phone_number %}
+                <h5>{{restaurant.phone_number}}</h5>
+            {% else %}
+            <h5>No Phone Number Recoreded</h5>
+            {% endif %}
+            <h5>
+                {% for star in stars %}
+                {%  if star <= restaurant.rating %}
+                <label class="star-label star-label-checked">&#9733;</label>
+                {% else %}
+                <label class="star-label star-label-unchecked">&#9733;</label>
+                {% endif %}
+                {% endfor %}
+                <em>({{restaurant.rating }} Stars)</em>
+            </h5>
+            
+            <div class="row">
+                <div class="col">
+                    {% include 'review_modal.html' %}
+                    <a class="text-dark font-weight-bolder text-underline" href="{{restaurant.url}}">Check out their Yelp page</a>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    {% if user in restaurant.favorites.all %}
+                    <a class="likebutton btn btn-dark btn-sm" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Unfavorite</a>
+                    {% else %}
+                    <a class="likebutton btn btn-primary btn-sm" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Favorite</a>
+                    {% endif %}
+                </div>
+            </div>
+            <button id="det-btn" class="font-weight-bold btn btn-link text-dark " >Details</button>
+        </div>
+    </div>
+    <div id="details" style="display: none;" class="row mt-2 pt-3 shadow-lg rounded-lg border border-dark">
+        <div class="col-md-4 text-left">
+            <h5>Categories:</h5>
+            <ul class="list-group list-unstyled">
+            {% for category in restaurant.categories.all %}
+                <form action="{% url 'category_explore' %}" method="get">
+                    <input type="hidden" name="city" value="{{restaurant.location.city}}">
+                    <input type="hidden" name="state" value="{{restaurant.location.state}}">
+                    <input type="hidden" name="category" value="{{category.title}}">
+                    <li><input class="list-group-item py-1 mt-1 rounded bg-secondary" type="submit" value="{{category.title}}"></li>
+                </form>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4 text-left">
+            <ul class="list-unstyled">
+                <li>
+                    <h5>Reviews</h5>
+                    <p> Reviews made on Yelp: {{restaurant.review_count}}</p>
+                    <p> Reviews made on The Taste: {{restaurant.restaurant_reviews.count}}</p>
+                </li>
+                <li>
+                    <h5>Price: {{restaurant.price}}</h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row m-auto px-2">
+    <div class="col-md-9 ">
+        <h5 id="btn-suggest-rests" class="btn btn-link">If you like this restaurant...</h5>
+        <div id="rel-rests" class="row m-auto">
+            <div class="col">
+                
+                {% for new_rest in related_restaurants.all %}
+                {% if new_rest.id !=  restaurant.id %}
+                <a class="btn btn-primary rounded-pill my-1" href="{% url 'show_restaurant' id=new_rest.id %}">{{new_rest}}</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row m-auto">
+            <div class="col text-center">
+                <h2>REVIEWS</h2>
+            </div>
+        </div>
+    {% if restaurant.restaurant_reviews.all %}
+    {% for review in reviews.all %}
+        <div class="row m-auto">
+            <div class="col border-bottom border-secondary">
+                
+                {% if review.creator == user %}
+                <h3 class="d-inline">{{review.title}}</h3>
+                
+                <button type="button" class="btn btn-link text-primary" data-toggle="modal" data-target="#update_review{{review.id}}" >Edit</button>
+                {% include 'edit_review_modal.html' %}
+                <button type="button" class="btn btn-link text-primary" data-toggle="modal" data-target="#delete_review{{review.id}}" >Delete</button>
+                {% include 'delete_review_modal.html' %}
+                {% else %}
+                <h3>{{review.title}}</h3>
+                {% endif %}
+                
+                <p>
+                    {% for star in stars %}
+                    {%  if star <= review.rating %}
+                    <label class="star-label star-label-checked">&#9733;</label>
+                    {% else %}
+                    <label class="star-label star-label-unchecked">&#9733;</label>
+                    {% endif %}
+                    {% endfor %}
+                    <em>({{review.rating }} Stars)</em>
+                    <em>| Written by <a href="{% url 'show_user' id=review.creator.id %}">{{review.creator}}</a> - {{review.updated_at|timesince}} ago.</em>
+                </p>
+                <p>{{ review.desc }}</p>
+            </div>
+        </div>
+    {% endfor %}     
+    {% else %}
+        <div class="row m-auto">
+            <div class="col text-center">
+                <h3><em>No Reviews Yet.  Be the first to leave a review and rating for {{restaurant.name}}!</em>
+                </h3>
+            </div>
+        </div>
+    {% endif %}
+    </div>        
+    <div class="col-md-3 text-center border border-secondary shadow">
+        <h3>Foodies Who Favorited:</h3>
+        <span>
+            <em>({{restaurant.favorites.all|length}} Favorites)</em>
+            {% if user in restaurant.favorites.all %}
+                <a class="font-weight-bold" href="{% url 'show_user' id=user.id %}">You Favorited This!</a>
+            {% endif %}
+        </span>
+        <div class="row m-auto">
+            <div class="col">
+                {% for user_fav in restaurant.favorites.all %}
+                    {% if user != user_fav %}
+                        <a class="font-weight-bold list-group-item list-group-item-action py-0" href="{% url 'show_user' id=user_fav.id %}">{{user_fav}}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>  
+    </div>
+</div>
+
+{% endblock %}

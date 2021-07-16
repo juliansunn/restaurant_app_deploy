@@ -1,0 +1,17 @@
+Title: The Taste App
+
+Description: The Taste is a social media website based around user's love for various types of food and specific restaurants.  Users can favorite restaurants, review restaurants, and friend other users.  Users can search through a database of Restaurants (pulled from Yelp's Fusion API).  I would like to make it so users are recommended restaurants based on their reviews/favorites in other restaurants along with thier friends favorites/reviews.  
+Not only can users search through the current database of restaurants on The Taste's database but they can request restauarant data directly from Yelp's API and grow the database of restaurant in lots of new locations.  
+I may not have time but I would like to use the Google Maps API to visually show location data on each restaurants profile.
+The last optional feature I would like to add is a messaging system between users to communicate with one another and maybe even share restaurant recommendations with one another.
+
+Features:
+Restaurant Profile
+User Profile
+Restaurant Favorites by Users
+User Friending other Users
+User Reviewing Restaurants
+Yelp API Querying to populate database
+Google API to show location data for Restaurants (optional)
+Explore Page allows user to add new restaurants to database or search existing restaurants
+Messaging between Users (optional)
