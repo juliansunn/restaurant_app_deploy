@@ -3,16 +3,24 @@
     {% for restaurant in restaurants %}
     {% if forloop.counter0|divisibleby:2 %}
     <div class="row m-auto d-flex justify-content-center">
-        <div class="col-lg-5 m-1 bg-light rounded">
-            <div class="row ">
-                <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="col-6" src="{{ restaurant.image.url }}" alt="No Image Provided">
-                <div class="col-6">
-                    <h3><a href="{% url 'show_restaurant' id=restaurant.id %}">{{restaurant.name}}</a> | 
+        <div class="col-lg-5 m-1 bg-light rounded shadow">
+            <div class="row mt-1">
+                <div class="col text-right">
                     {% if restaurant in user.favorites.all %}
-                        <a class="likebutton btn btn-dark btn-sm" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Unfavorite</a>
+                        <a class="likebutton btn btn-dark btn-sm mr-1" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Unfavorite</a>
                     {% else %}
-                    <a class="likebutton btn btn-primary btn-sm" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Favorite</a>
+                        <a class="likebutton btn btn-primary btn-sm mr-1" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Favorite</a>
                     {% endif %}
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col text-center">
+                    <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="shadow shadow-lg" src="{{ restaurant.image.url }}" alt="No Image Provided">
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col text-center">
+                    <h3><a href="{% url 'show_restaurant' id=restaurant.id %}">{{restaurant.name}}</a>
                     </h3>
                     {% for category in restaurant.categories.all %}
                     <span>{{ category.title }}, </span>
@@ -28,26 +36,34 @@
             </div>
         </div>
     {% else %}
-        <div class="col-lg-5 m-1 bg-light rounded">
-            <div class="row">
-                
-                <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="col-6" src="{{ restaurant.image.url }}" alt="{{restaurant.name}}">
-                <div class="col-6">
-                    <h3><a href="{% url 'show_restaurant' id=restaurant.id %}">{{restaurant.name}}</a> | 
+        <div class="col-lg-5 m-1 bg-light rounded shadow">
+            <div class="row mt-1">
+                <div class="col text-right">
                     {% if restaurant in user.favorites.all %}
-                        <a class="likebutton btn btn-dark btn-sm" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Unfavorite</a>
+                        <a class="likebutton btn btn-dark btn-sm mr-1" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Unfavorite</a>
                     {% else %}
-                        <a class="likebutton btn btn-primary btn-sm" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Favorite</a>
-                    {% endif %}    
-                    
+                        <a class="likebutton btn btn-primary btn-sm mr-1" id="like{{restaurant.id}}" href="#" data-catid="{{restaurant.id}}">Favorite</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col text-center">
+                    <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="shadow shadow-lg" src="{{ restaurant.image.url }}" alt="No Image Provided">
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col text-center">
+                    <h3><a href="{% url 'show_restaurant' id=restaurant.id %}">{{restaurant.name}}</a>
                     </h3>
+                    {% for category in restaurant.categories.all %}
+                    <span>{{ category.title }}, </span>
+                    {% endfor %}
                     <a href=""><p>{{restaurant.location}}</p></a>
                     {% if restaurant.phone_number %}
                         <h5>{{restaurant.phone_number}}</h5>
                     {% else %}
                         <h5>No Phone Number Recoreded</h5>
                     {% endif %}
-                    
                     <a href="{{restaurant.url}}">Check out the Restaurant Here</a>
                 </div>
             </div>
