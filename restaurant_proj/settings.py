@@ -28,7 +28,7 @@ API_KEY = 'IUAxEQcTmbZol8ZvzB1J2bYaOOb_5XFfnwTg7SNo4gnq5RSEZRWiTV2l8U7W1s8YJBqPl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.142.12.39']
 
 
 # Application definition
@@ -120,15 +120,25 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Testing Settings######################
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+# STATIC_URL = '/static/'
+# PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
+
+# MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+
+# Production Settings###################
+
+STATIC_URL = '/static/'
+# PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-

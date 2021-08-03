@@ -9,6 +9,7 @@
 <div class="jumbotron text-center bg-primary mb-0">
     <h1 style="font-size: 3.5em;">Restaurants For You</h1>
 </div>
+{% if restaurants %}
 {% if restaurants.has_other_pages %}
     <div class="row bg-primary pt-4">
         <div class="col">
@@ -35,5 +36,11 @@
     </div>
 {% endif %}
 {% include 'restaurant_tiles.html' %}
-
+{% else %}
+<div class="row mt-2 d-flex justify-content-center">
+    <div class="col-md-8 text-center">
+        <p>Welcome to The Taste.  This is your Dashboard for finding new restaurants that suit your taste. Please navigate to the Explore page and find restaurants you like.  Once you have favorited restaurants that suite your preferences, you will now see a stream of new restaurants recommended for you to check out based on your favorites.  Have fun, favorite away, and find your Taste!</p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

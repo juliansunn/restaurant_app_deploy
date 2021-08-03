@@ -210,56 +210,7 @@ def friend(request, friend_id):
             user.save()
             friend.save()
             status = 'Remove Friend'
-        data = {
-            'status': status
-        }
-        
-        return JsonResponse(data)
-
-# def new_restaurant_query(location):
-    # api_key = API_KEY
-    # url='https://api.yelp.com/v3/businesses/search'
-    # headers = {'Authorization': 'Bearer %s' % api_key}
-    # # In the dictionary, term can take values like food, cafes or businesses like McDonalds
-    # params = {'term':'food','location':location, 'limit': 50}
-    # req=requests.get(url, params=params, headers=headers)
-    # data = json.loads(req.text)
-    # restaurants = data['businesses']
-    # rests_to_return = []
-    # for test_rest in restaurants:
-    #     if 'price' not in test_rest:
-    #         test_rest['price'] = '$'
-    #     if test_rest['image_url'] == "":
-    #         test_rest['image_url'] = 'https://s3-media1.fl.yelpcdn.com/bphoto/UaybPI6fcFGFsvftdW54JA/o.jpg'
-    #     is_in_db = Restaurant.objects.filter(name=test_rest['name'], url=test_rest['url'])
-    #     if is_in_db:
-    #         rests_to_return.append(is_in_db[0])
-    #     else:
-    #         new_restaurant = Restaurant.objects.create(creator=User.objects.get(id=1), name=test_rest['name'], alias=test_rest['alias'], is_closed=test_rest['is_closed'], url=test_rest['url'], review_count=test_rest['review_count'], rating=test_rest['rating'], latitude=test_rest['coordinates']['latitude'], longitude=test_rest['coordinates']['longitude'], phone_number=test_rest['display_phone'], price=test_rest['price'])
-    #         new_restaurant.image_url = test_rest['image_url']
-    #         new_restaurant.get_remote_image()
-    #         loc_data = test_rest['location']
-    #         new_location = Location.objects.create(address1=loc_data['address1'], city=loc_data['city'], zip_code=loc_data['zip_code'], country=loc_data['country'], state=loc_data['state'])
-    #         new_restaurant.location = new_location
-    #         transaction_types = test_rest['transactions']
-    #         for t in transaction_types:
-    #             t_type = TransactionType.objects.filter(title=t)
-    #             if not t_type:
-    #                 new_t_type = TransactionType.objects.create(title=t)
-    #             else:
-    #                 new_t_type = t_type[0]
-    #             new_restaurant.transaction_types.add(new_t_type)
-
-    #         category_types = test_rest['categories']
-    #         for c in category_types:
-    #             c_type = Category.objects.filter(title=c['title'])
-    #             if not c_type:
-    #                 new_c_type = Category.objects.create(title=c['title'], alias=c['alias'])
-    #             else:
-    #                 new_c_type = c_type[0]
-    #             new_restaurant.categories.add(new_c_type)
-    #         new_restaurant.save()
-    # return redirect("/dashboard")
+        return JsonResponse({'status': status})
 
 def new_loc_search(request):
     user = User.objects.filter(id=request.session['user_id'])
@@ -374,6 +325,7 @@ def search(request):
         restaurant = Restaurant.objects.filter(name=request.GET['rest_search'])
         if restaurant:
             return redirect(f"/dashboard/restaurants/show/{restaurant[0].id}")
+        return redirect("/dashboard/explore")
 
 
 
