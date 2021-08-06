@@ -3,7 +3,7 @@
     {% for restaurant in restaurants %}
     {% if forloop.counter0|divisibleby:2 %}
     <div class="row m-auto d-flex justify-content-center">
-        <div class="col-lg-5 m-1 bg-light rounded shadow">
+        <div style="max-width: 400px;" class="col-md-5 m-1 bg-light rounded shadow">
             <div class="row mt-1">
                 <div class="col text-right">
                     {% if restaurant in user.favorites.all %}
@@ -14,8 +14,9 @@
                 </div>
             </div>
             <div class="row p-2">
+                
                 <div class="col text-center">
-                    <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="shadow shadow-lg" src="{{ restaurant.image.url }}" alt="No Image Provided">
+                    <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px; border-radius: 150px;" class="shadow shadow-lg" src="{{ restaurant.image_url }}" alt="No Image Provided">
                 </div>
             </div>
             <div class="row p-2">
@@ -31,12 +32,12 @@
                     {% else %}
                         <h5>No Phone Number Recoreded</h5>
                     {% endif %}
-                    <a href="{{restaurant.url}}">Check out the Restaurant Here</a>
+                    <a target="_blank" href="{{restaurant.url}}">Check out the Restaurant Here</a>
                 </div>
             </div>
         </div>
     {% else %}
-        <div class="col-lg-5 m-1 bg-light rounded shadow">
+        <div style="max-width: 400px;" class="col-md-5 m-1 bg-light rounded shadow">
             <div class="row mt-1">
                 <div class="col text-right">
                     {% if restaurant in user.favorites.all %}
@@ -47,8 +48,9 @@
                 </div>
             </div>
             <div class="row p-2">
+                
                 <div class="col text-center">
-                    <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="shadow shadow-lg" src="{{ restaurant.image.url }}" alt="No Image Provided">
+                    <img style="min-width: 300px; min-height: 300px; max-width: 300px; max-height: 300px;border-radius: 150px;" class="shadow shadow-lg" src="{{ restaurant.image_url }}" alt="No Image Provided">
                 </div>
             </div>
             <div class="row p-2">
@@ -64,7 +66,7 @@
                     {% else %}
                         <h5>No Phone Number Recoreded</h5>
                     {% endif %}
-                    <a href="{{restaurant.url}}">Check out the Restaurant Here</a>
+                    <a target="_blank" href="{{restaurant.url}}">Check out the Restaurant Here</a>
                 </div>
             </div>
         </div>

@@ -43,7 +43,7 @@ class Restaurant(models.Model):
     creator = models.ForeignKey(User, related_name='restaurant_creator', on_delete=models.CASCADE)
     name = models.CharField(max_length=45)
     alias = models.SlugField()
-    image = models.ImageField(upload_to="images")
+    # image = models.ImageField(upload_to="images")
     image_url = models.URLField(null=True, default=None)
     is_closed = models.BooleanField()
     url = models.CharField(max_length=255)
