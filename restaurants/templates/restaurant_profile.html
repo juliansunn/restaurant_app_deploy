@@ -2,7 +2,7 @@
 {% block content %}
 <script>
 </script>
-<div class="jumbotron bg-secondary text-center" style="background-image: url({{restaurant.image.url}}); background-size: cover; background-blend-mode:overlay;">
+<div class="jumbotron bg-secondary text-center" style="background-image: url({{restaurant.image_url}}); background-size: cover; background-blend-mode:overlay;">
     <div class="row" >
         <input type="hidden" name="lng" id="lng" value="{{restaurant.longitude}}">
         <input type="hidden" name="lat" id="lat" value="{{restaurant.latitude}}">
@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col">
                     {% include 'review_modal.html' %}
-                    <a class="text-dark font-weight-bolder text-underline" href="{{restaurant.url}}">Check out their Yelp page</a>
+                    <a target="_blank" class="text-dark font-weight-bolder text-underline" href="{{restaurant.url}}">Check out their Yelp page</a>
                 </div>
             </div>
             

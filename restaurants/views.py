@@ -74,7 +74,7 @@ def related_restaurants(restaurant):
         
     else:
         rel_rests = Restaurant.objects.filter(location_id__in=(Location.objects.filter(city=restaurant.location.city, state=restaurant.location.state)))
-    return rel_rests.distinct().order_by('-rating', 'review_count', 'price')
+    return rel_rests.distinct().order_by('rating', 'review_count', 'price')[:10]
 
 def explore(request):
     if "user_id" in request.session:
@@ -251,7 +251,7 @@ def new_restaurant_query(search_term, location):
             else:
                 new_restaurant = Restaurant.objects.create(creator=User.objects.get(id=1), name=test_rest['name'], alias=test_rest['alias'], is_closed=test_rest['is_closed'], url=test_rest['url'], review_count=test_rest['review_count'], rating=test_rest['rating'], latitude=test_rest['coordinates']['latitude'], longitude=test_rest['coordinates']['longitude'], phone_number=test_rest['display_phone'], price=test_rest['price'])
                 new_restaurant.image_url = test_rest['image_url']
-                new_restaurant.get_remote_image()
+                # new_restaurant.get_remote_image()
                 loc_data = test_rest['location']
                 new_location = Location.objects.create(address1=loc_data['address1'], city=loc_data['city'], zip_code=loc_data['zip_code'], country=loc_data['country'], state=loc_data['state'])
                 new_restaurant.location = new_location
