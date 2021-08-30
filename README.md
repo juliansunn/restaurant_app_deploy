@@ -11,7 +11,7 @@ The Taste is a restaurant recommendation and social network website inspired by 
 * Users can favorite/unfavorite Restaurants.
 * Homepage shows recommended restaurants based on users prior favorites of restaurants.
 * Google Maps API integrated to display restaurant locations on multiple pages throughout the site.
-* JQeury functionality and AJAX GET/POST requests enhance the UI/UX to keep webpage from reloading after making requests.
+* JQuery functionality and AJAX GET/POST requests enhance the UI/UX to keep webpage from reloading after making requests.
 ## Author
 Julian Sunn https://github.com/juliansunn
 ## Demo
