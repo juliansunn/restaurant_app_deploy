@@ -1,5 +1,5 @@
 # The Taste
-Here is the Link(http://3.142.12.39)
+Here is the [Link](http://3.142.12.39)
 
 The Taste is a restaurant recommendation and social network website inspired by the Yelp API and Spotify.  Harnessing the power of a user's preferences in restaurants along with preferences within a users social network allow for targeted recommendations of new restaurants the user might enjoy.
 ## Features
