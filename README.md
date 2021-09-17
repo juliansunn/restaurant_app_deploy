@@ -17,7 +17,8 @@ The Taste is a restaurant recommendation and social network website inspired by 
 ## Author
 Julian Sunn https://github.com/juliansunn
 ## Demo
-### Querying Yelp's API to find/create new restaurants on The Taste Website.
-![AddRestaurants](demos/find_new_rests_yelp.gif)
 ### Searching existing restaurants already within The Taste website.
 ![SearchExistingRestaurants](demos/search_existing_rests.gif)
+### Querying Yelp's API to find/create new restaurants on The Taste Website.
+![AddRestaurants](demos/find_new_rests_yelp.gif)
+
