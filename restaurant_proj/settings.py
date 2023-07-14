@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
     "the-taste-ff46877bd465.herokuapp.com",
 ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
