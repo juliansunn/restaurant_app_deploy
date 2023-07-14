@@ -28,7 +28,7 @@ API_KEY = 'IUAxEQcTmbZol8ZvzB1J2bYaOOb_5XFfnwTg7SNo4gnq5RSEZRWiTV2l8U7W1s8YJBqPl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.142.12.39', '127.0.0.1', "the-taste.herokuapp.com"]
+ALLOWED_HOSTS = ['3.142.12.39', '127.0.0.1', "https://the-taste-ff46877bd465.herokuapp.com"]
 
 
 # Application definition
