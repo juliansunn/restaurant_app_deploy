@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 API_KEY = "IUAxEQcTmbZol8ZvzB1J2bYaOOb_5XFfnwTg7SNo4gnq5RSEZRWiTV2l8U7W1s8YJBqPlHee6lnS2yzRrkZ0zEdXLA_V1D6d3LCYnM29HJhdusS0WMB-P4CjgUDCYHYx"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "3.142.12.39",
@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
     "the-taste-ff46877bd465.herokuapp.com",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
