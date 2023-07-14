@@ -26,9 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 API_KEY = 'IUAxEQcTmbZol8ZvzB1J2bYaOOb_5XFfnwTg7SNo4gnq5RSEZRWiTV2l8U7W1s8YJBqPlHee6lnS2yzRrkZ0zEdXLA_V1D6d3LCYnM29HJhdusS0WMB-P4CjgUDCYHYx'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['3.142.12.39', '127.0.0.1', "restaurant_app_deploy.herokuapp.com"]
+ALLOWED_HOSTS = ['3.142.12.39', '127.0.0.1', "the-taste.herokuapp.com"]
 
 
 # Application definition
@@ -81,13 +81,23 @@ WSGI_APPLICATION = 'restaurant_proj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "db",
+        "USER": "wkdeublrvkonlo",
+        "PASSWORD": "bdb3955049601e15ee0f4aeaf2175ee839e9a45e0762f2a5bb3a0854e0e17b55",
+        "HOST": "ec2-44-206-204-65.compute-1.amazonaws.com",
+        "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
