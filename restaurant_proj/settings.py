@@ -30,9 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "3.142.12.39",
     "127.0.0.1",
-    "https://the-taste-ff46877bd465.herokuapp.com",
+    "https://the-taste.herokuapp.com",
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
