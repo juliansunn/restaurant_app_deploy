@@ -5,6 +5,7 @@ from django.core.files import File
 from urllib import request
 import os
 
+
 class Category(models.Model):
     title = models.CharField(max_length=225)
     alias = models.SlugField(default=None)
@@ -16,6 +17,7 @@ class Category(models.Model):
     def get_restaurants(self):
         return Restaurant.objects.filter(category=self.title)
 
+
 class TransactionType(models.Model):
     title = models.CharField(max_length=45)
 
@@ -25,6 +27,7 @@ class TransactionType(models.Model):
     @property
     def get_restaurants(self):
         return Restaurant.objects.filter(transaction_types=self.title)
+
 
 class Location(models.Model):
     address1 = models.CharField(max_length=100, null=True, blank=True, default=None)
@@ -40,54 +43,72 @@ class Location(models.Model):
 
 
 class Restaurant(models.Model):
-    creator = models.ForeignKey(User, related_name='restaurant_creator', on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        User, related_name="restaurant_creator", on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=45)
     alias = models.SlugField()
-    # image = models.ImageField(upload_to="images")
-    image_url = models.URLField(null=True, default=None)
+    image_url = models.URLField(null=True, default=None, blank=True)
     is_closed = models.BooleanField()
     url = models.CharField(max_length=255)
     review_count = models.IntegerField()
-    categories = models.ManyToManyField(Category, related_name="Category")
+    categories = models.ManyToManyField(Category, related_name="Category", blank=True)
     rating = models.FloatField()
     latitude = models.FloatField()
     longitude = models.FloatField()
-    transaction_types = models.ManyToManyField(TransactionType, related_name='restaurant_transactions')
+    transaction_types = models.ManyToManyField(
+        TransactionType, related_name="restaurant_transactions", blank=True
+    )
     price = models.CharField(max_length=5)
-    location = models.OneToOneField(Location, null=True, default=None, related_name="restaurant_location", on_delete=models.CASCADE)
+    location = models.OneToOneField(
+        Location,
+        null=True,
+        default=None,
+        related_name="restaurant_location",
+        on_delete=models.CASCADE,
+    )
     phone_number = models.CharField(max_length=20)
-    favorites = models.ManyToManyField(User, related_name='favorites')
+    favorites = models.ManyToManyField(User, related_name="favorites", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
-    
+
     def get_remote_image(self):
         if self.image_url and not self.image:
             result = request.urlretrieve(self.image_url)
             self.image.save(
-                    os.path.basename(self.image_url),
-                    File(open(result[0], 'rb'))
-                    )
+                os.path.basename(self.image_url), File(open(result[0], "rb"))
+            )
             self.save()
 
+
 class Review(models.Model):
-    creator = models.ForeignKey(User, related_name="user_reviews", on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        User, related_name="user_reviews", on_delete=models.CASCADE
+    )
     title = models.CharField(max_length=45)
     desc = models.TextField()
-    restaurant = models.ForeignKey(Restaurant, related_name='restaurant_reviews', on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(
+        Restaurant, related_name="restaurant_reviews", on_delete=models.CASCADE
+    )
     rating = models.IntegerField()
-    likes = models.ManyToManyField(User, related_name='user_review_likes')
+    likes = models.ManyToManyField(User, related_name="user_review_likes", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.creator.first_name} {self.creator.last_name}"
 
+
 class Message(models.Model):
-    creator = models.ForeignKey(User, related_name="creator_message", on_delete=models.CASCADE)
-    recipient = models.ForeignKey(User, related_name="receiver_message", on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        User, related_name="creator_message", on_delete=models.CASCADE
+    )
+    recipient = models.ForeignKey(
+        User, related_name="receiver_message", on_delete=models.CASCADE
+    )
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
