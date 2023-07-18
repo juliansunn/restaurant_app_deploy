@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+from dotenv import load_dotenv
 import os
 import dj_database_url
 
+load_dotenv()
+# Initialise environment variables
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 API_KEY = "IUAxEQcTmbZol8ZvzB1J2bYaOOb_5XFfnwTg7SNo4gnq5RSEZRWiTV2l8U7W1s8YJBqPlHee6lnS2yzRrkZ0zEdXLA_V1D6d3LCYnM29HJhdusS0WMB-P4CjgUDCYHYx"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
